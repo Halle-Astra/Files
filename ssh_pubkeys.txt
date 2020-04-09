@@ -1,0 +1,39 @@
+#以下操作全都在master一台虚拟机所开的terminal中进行，但另外两台需要保持在网络中
+#期间大部分scp和ssh操作需要密码
+
+#-------master生成密钥对并将公钥写入到公钥文件中再将文件传输给slave-----
+
+[201711921328wjd@master ~]$ ssh-keygen -t rsa #生成密码对
+[201711921328wjd@master ~]$ cd .ssh
+[201711921328wjd@master .ssh]$ cat id_rsa.pub > authorized_keys
+[201711921328wjd@master .ssh]$ scp authorized_keys 201711921328wjd@slave:~/
+
+#-------slave生成密码对并将公钥追加到公钥文件中并将文件传给slave1--------
+
+[201711921328wjd@master .ssh]$ ssh slave #输密码登陆
+[201711921328wjd@slave ~]$ ssh-keygen -t rsa
+[201711921328wjd@slave ~]$ mv authorized_keys .ssh/
+[201711921328wjd@slave ~]$ cd .ssh
+[201711921328wjd@slave .ssh]$ cat id_rsa.pub >> authorized_keys 
+[201711921328wjd@slave .ssh]$ scp authorized_keys 201711921328wjd@slave1:~/
+
+#-------slave1生成密码对并将公钥追加到公钥文件中并将文件传回master--------
+
+[201711921328wjd@slave .ssh]$ ssh slave1 #带密码登陆slave1
+[201711921328wjd@slave1 ~]$ ssh-keygen -t rsa
+[201711921328wjd@slave1 ~]$ mv authorized_keys  .ssh
+[201711921328wjd@slave1 ~]$ cd .ssh
+[201711921328wjd@slave1 .ssh]$ cat id_rsa.pub >> authorized_keys 
+[201711921328wjd@slave1 .ssh]$ chmod 600 authorized_keys 
+[201711921328wjd@slave1 .ssh]$ scp authorized_keys 201711921328wjd@master:~/ #带密码传输文件
+
+#-------退回到master，用新的公钥文件覆盖master上旧的并修改权限，再更新slave上的公钥文件--------
+
+[201711921328wjd@slave1 .ssh]$ exit
+[201711921328wjd@slave .ssh]$ exit
+[201711921328wjd@master .ssh]$ cat ../authorized_keys > authorized_keys 
+[201711921328wjd@master .ssh]$ chmod 600 authorized_keys 
+[201711921328wjd@master .ssh]$ scp authorized_keys 201711921328wjd@slave:~/.ssh #免密传输
+[201711921328wjd@master .ssh]$ ssh slave  #免密登陆
+[201711921328wjd@slave ~]$ chmod 600 .ssh/authorized_keys 
+[201711921328wjd@slave ~]$ exit #返回master节点，配置结束
