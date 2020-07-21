@@ -1,7 +1,7 @@
 # SVN(SubVersion)的使用
 SVN(SubVersion)是一种版本管理工具，即类似Git的一种存在，其各命令均与git相似，Git适用于多人开发，方便快捷，而SVN适用于对权限管理较高要求以及企业内部使用。
 
-如果是简单使用，可直接阅读[基础使用](basic_usage)部分。
+如果是简单使用，可直接阅读[基础使用](#basic_usage)部分。
 ## SVN命令行工具的安装
 ### Win下安装SVN命令行工具
 1. 命令行工具的下载链接：https://sourceforge.net/projects/win32svn/
