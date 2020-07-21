@@ -11,7 +11,9 @@ SVN(SubVersion)是一种版本管理工具，即类似Git的一种存在，其�
 1. `yum install subversion`或`apt-get install subversion`可进行安装
 ## SVN可视化工具的安装
 1. 下载https://osdn.net/projects/tortoisesvn/storage/
-2. 其使用参考https://www.runoob.com/svn/tortoisesvn-intro.html；下文将仅介绍命令行工具的使用。
+2. 其使用参考https://www.runoob.com/svn/tortoisesvn-intro.html
+
+下文将仅介绍命令行工具的使用。
 
 ## SVN命令行工具的使用
 ### 创建版本库【服务器管理员】
